@@ -11,9 +11,7 @@ $relay_greetings = $greetings[mt_rand(0, count($greetings) - 1)];
 
 }
 
-?>
 
-<?php 
 
 function vulgar(){
 global $valgure_response;
@@ -22,10 +20,16 @@ $relay_valgure_response = $valgure_response [mt_rand(0, count($valgure_response 
 }
 
 
-?>
+function sendmail(){
+	$to      = $mail_to;
+$subject = $str ;
+$message = $str ;
+$headers = 'From: webmaster@example.com' . "\r\n" .
+    'Reply-To: webmaster@example.com' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
 
-
-<?php
+mail($to, $subject, $message, $headers);
+}
 
 vulgar();
 greetings();
