@@ -1,5 +1,7 @@
 
 <?php
+require_once("ip.codehelper.io.php");
+require_once("php_fast_cache.php");
 $user_ip = getenv('REMOTE_ADDR');
 $geo = unserialize(file_get_contents("http://www.geoplugin.net/php.gp?ip=$user_ip"));
 $city = $geo["geoplugin_city"];
@@ -9,6 +11,9 @@ $greetings = ['Hi there', 'Hello human', 'hello'];
 $valgure_response = ["I cannot respond to that kind of dialect", "would you ask your mother that?", "i will email your mother this"];
 $str="";
 $error ="";
+$_ip = new ip_codehelper();
+$real_client_ip_address = $_ip->getRealIP();
+$visitor_location       = $_ip->getLocation($real_client_ip_address);
 date_default_timezone_set('UTC');
 function greetings( ){
  global $greetings;
@@ -63,7 +68,7 @@ if ( $hi  == 1 || $hi2 == 1 || $hello ==1 || $hello2 == 1 || $hi3 ==1)
 
 
 $relay_today =  substr_count($str, "when is today" );
-$relay_today2 = substr_count($str, "todays datee" );
+$relay_today2 = substr_count($str, "todays date" );
 if ( $relay_today   == 1 || $relay_today2==1 )
   {
 echo date('l jS \of F Y h:i:s A');
@@ -73,6 +78,15 @@ echo date('l jS \of F Y h:i:s A');
   if ($geo_location ==1)
   {
   	echo $country;
+  }
+
+  $my_location=   substr_count($str, "my location" );
+
+  if ($relay_today   == 1)
+  {
+  	echo $visitor_location['Country']."<br>";
+echo "<pre>";
+print_r($visitor_location);
   }
 
 
