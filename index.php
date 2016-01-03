@@ -1,16 +1,21 @@
 
 <?php
+$user_ip = getenv('REMOTE_ADDR');
+$geo = unserialize(file_get_contents("http://www.geoplugin.net/php.gp?ip=$user_ip"));
+$city = $geo["geoplugin_city"];
+$region = $geo["geoplugin_regionName"];
+$country = $geo["geoplugin_countryName"];
 $greetings = ['Hi there', 'Hello human', 'hello'];
 $valgure_response = ["I cannot respond to that kind of dialect", "would you ask your mother that?", "i will email your mother this"];
 $str="";
 $error ="";
+date_default_timezone_set('UTC');
 function greetings( ){
  global $greetings;
  global $relay_greetings;
 $relay_greetings = $greetings[mt_rand(0, count($greetings) - 1)];
 
 }
-
 
 
 function vulgar(){
@@ -20,16 +25,6 @@ $relay_valgure_response = $valgure_response [mt_rand(0, count($valgure_response 
 }
 
 
-function sendmail(){
-	$to      = $mail_to;
-$subject = $str ;
-$message = $str ;
-$headers = 'From: webmaster@example.com' . "\r\n" .
-    'Reply-To: webmaster@example.com' . "\r\n" .
-    'X-Mailer: PHP/' . phpversion();
-
-mail($to, $subject, $message, $headers);
-}
 
 vulgar();
 greetings();
@@ -64,6 +59,22 @@ if ( $hi  == 1 || $hi2 == 1 || $hello ==1 || $hello2 == 1 || $hi3 ==1)
   {
  echo $relay_greetings;	
 }
+
+
+
+$relay_today =  substr_count($str, "when is today" );
+$relay_today2 = substr_count($str, "todays datee" );
+if ( $relay_today   == 1 || $relay_today2==1 )
+  {
+echo date('l jS \of F Y h:i:s A');
+  }
+
+  $geo_location =   substr_count($str, "where am i " );
+  if ($geo_location ==1)
+  {
+  	echo $country;
+  }
+
 
 else {
 
