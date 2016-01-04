@@ -1,7 +1,14 @@
 
 <?php
+
 require_once("ip.codehelper.io.php");
 require_once("php_fast_cache.php");
+require_once("errors.php");
+$permalinks = explode("/",$_SERVER['REQUEST_URI']);
+
+$varone = $permalinks[1];
+$vartwo = $permalinks[2];
+
 $user_ip = getenv('REMOTE_ADDR');
 $geo = unserialize(file_get_contents("http://www.geoplugin.net/php.gp?ip=$user_ip"));
 $city = $geo["geoplugin_city"];
@@ -15,12 +22,15 @@ $_ip = new ip_codehelper();
 $real_client_ip_address = $_ip->getRealIP();
 $visitor_location       = $_ip->getLocation($real_client_ip_address);
 date_default_timezone_set('UTC');
+
+
 function greetings( ){
  global $greetings;
  global $relay_greetings;
 $relay_greetings = $greetings[mt_rand(0, count($greetings) - 1)];
 
 }
+
 
 
 function vulgar(){
@@ -31,12 +41,16 @@ $relay_valgure_response = $valgure_response [mt_rand(0, count($valgure_response 
 
 
 
+
 vulgar();
 greetings();
 if (isset($_POST['submit'])=='submit')
 {
 $str = $_POST['ui'];
-}
+    
+    
+
+
 
 $fuck =  substr_count($str, "fuck" );
 $fucking =  substr_count($str, "fucking" );
@@ -90,11 +104,8 @@ print_r($visitor_location);
   }
 
 
-else {
 
-	echo $error;
 }
-
 
 
 

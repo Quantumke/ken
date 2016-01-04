@@ -1,5 +1,5 @@
 <?php
-
+require_once("errors.php");
 class ip_codehelper {
     public function getRealIP() {
         $ipaddress = '';
