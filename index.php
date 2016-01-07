@@ -1,8 +1,6 @@
 
 <?php
 
-require_once("ip.codehelper.io.php");
-require_once("php_fast_cache.php");
 require_once("errors.php");
 $permalinks = explode("/",$_SERVER['REQUEST_URI']);
 
@@ -18,9 +16,7 @@ $greetings = ['Hi there', 'Hello human', 'hello'];
 $valgure_response = ["I cannot respond to that kind of dialect", "would you ask your mother that?", "i will email your mother this"];
 $str="";
 $error ="";
-$_ip = new ip_codehelper();
-$real_client_ip_address = $_ip->getRealIP();
-$visitor_location       = $_ip->getLocation($real_client_ip_address);
+
 date_default_timezone_set('UTC');
 
 
@@ -94,21 +90,36 @@ echo date('l jS \of F Y h:i:s A');
   	echo $country;
   }
 
-  $my_location=   substr_count($str, "my location" );
 
-  if ($relay_today   == 1)
-  {
-  	echo $visitor_location['Country']."<br>";
-echo "<pre>";
-print_r($visitor_location);
-  }
+
 
 
 
 }
 
+else {
+  $url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=".$str ;
+
+$body = file_get_contents($url);
+$json = json_decode($body);
+
+for($x=0;$x<count($json->responseData->results);$x++){
+
+echo "<b>Result ".($x+1)."</b>";
+echo "<br>URL: ";
+echo $json->responseData->results[$x]->url;
+echo "<br>VisibleURL: ";
+echo $json->responseData->results[$x]->visibleUrl;
+echo "<br>Title: ";
+echo $json->responseData->results[$x]->title;
+echo "<br>Content: ";
+echo $json->responseData->results[$x]->content;
+echo "<br><br>";
 
 
+
+}
+}
 
 ?>
 
